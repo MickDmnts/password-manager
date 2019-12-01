@@ -1,0 +1,7 @@
+1. Create a login pop-up window
+    1a. Encrypt the login credentials
+
+2. Create a delete button to delete a specific PW file
+    2a. First delete the PW file from List<PlatformInformation>()
+    2b. Second re-load the dropDown menu to show the remaining passwords
+!DO NOT USE LoadFiles()!
