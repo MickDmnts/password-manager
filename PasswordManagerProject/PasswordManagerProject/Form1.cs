@@ -244,5 +244,32 @@ namespace PasswordManagerProject
                 platformDropDown.Enabled = false;
             }
         }
+
+        private void copyEmailButton_Click(object sender, EventArgs e)
+        {
+            string fileName = platformDropDown.Text;
+            foreach (PlatformInformation file in passwordsList)
+            {
+                if (file.Platform == fileName)
+                {
+                    Clipboard.SetText(file.Email);
+                    return;
+                }
+            }
+            
+        }
+
+        private void copyPasswordButton_Click(object sender, EventArgs e)
+        {
+            string fileName = platformDropDown.Text;
+            foreach (PlatformInformation file in passwordsList)
+            {
+                if (file.Platform == fileName)
+                {
+                    Clipboard.SetText(file.Password);
+                    return;
+                }
+            }
+        }
     }
 }
