@@ -192,7 +192,7 @@ namespace PasswordManagerProject
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Password Manager v1.5.2";
+            this.Text = "Password Manager v1.0.5.5";
             this.ResumeLayout(false);
             this.PerformLayout();
 
