@@ -40,6 +40,8 @@ namespace PasswordManagerProject
             this.label4 = new System.Windows.Forms.Label();
             this.fileInformationTextBox = new System.Windows.Forms.RichTextBox();
             this.directoryBrowser = new System.Windows.Forms.FolderBrowserDialog();
+            this.copyEmailButton = new System.Windows.Forms.Button();
+            this.copyPasswordButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // platformText
@@ -147,11 +149,33 @@ namespace PasswordManagerProject
             this.fileInformationTextBox.TabIndex = 10;
             this.fileInformationTextBox.Text = "";
             // 
+            // copyEmailButton
+            // 
+            this.copyEmailButton.Location = new System.Drawing.Point(434, 173);
+            this.copyEmailButton.Name = "copyEmailButton";
+            this.copyEmailButton.Size = new System.Drawing.Size(123, 24);
+            this.copyEmailButton.TabIndex = 11;
+            this.copyEmailButton.Text = "Copy Email";
+            this.copyEmailButton.UseVisualStyleBackColor = true;
+            this.copyEmailButton.Click += new System.EventHandler(this.copyEmailButton_Click);
+            // 
+            // copyPasswordButton
+            // 
+            this.copyPasswordButton.Location = new System.Drawing.Point(582, 173);
+            this.copyPasswordButton.Name = "copyPasswordButton";
+            this.copyPasswordButton.Size = new System.Drawing.Size(117, 24);
+            this.copyPasswordButton.TabIndex = 12;
+            this.copyPasswordButton.Text = "Copy Password";
+            this.copyPasswordButton.UseVisualStyleBackColor = true;
+            this.copyPasswordButton.Click += new System.EventHandler(this.copyPasswordButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(711, 207);
+            this.Controls.Add(this.copyPasswordButton);
+            this.Controls.Add(this.copyEmailButton);
             this.Controls.Add(this.fileInformationTextBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.platformDropDown);
@@ -186,6 +210,8 @@ namespace PasswordManagerProject
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.RichTextBox fileInformationTextBox;
         private System.Windows.Forms.FolderBrowserDialog directoryBrowser;
+        private System.Windows.Forms.Button copyEmailButton;
+        private System.Windows.Forms.Button copyPasswordButton;
     }
 }
 
