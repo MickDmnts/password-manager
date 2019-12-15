@@ -238,12 +238,10 @@ namespace PasswordManagerProject
             try
             {
                 platformDropDown.SelectedIndex = 0;
-                fileCounterText.Text = "Saved Passwords: " + passwordFileIDs;
             }
             catch (ArgumentOutOfRangeException)
             {
                 platformDropDown.Enabled = false;
-                fileCounterText.Text = "Saved Passwords: 0";
             }
         }
     }
