@@ -40,7 +40,6 @@ namespace PasswordManagerProject
             this.label4 = new System.Windows.Forms.Label();
             this.fileInformationTextBox = new System.Windows.Forms.RichTextBox();
             this.directoryBrowser = new System.Windows.Forms.FolderBrowserDialog();
-            this.fileCounterText = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // platformText
@@ -148,23 +147,11 @@ namespace PasswordManagerProject
             this.fileInformationTextBox.TabIndex = 10;
             this.fileInformationTextBox.Text = "";
             // 
-            // fileCounterText
-            // 
-            this.fileCounterText.AutoSize = true;
-            this.fileCounterText.Cursor = System.Windows.Forms.Cursors.Help;
-            this.fileCounterText.Location = new System.Drawing.Point(431, 170);
-            this.fileCounterText.Name = "fileCounterText";
-            this.fileCounterText.Size = new System.Drawing.Size(98, 13);
-            this.fileCounterText.TabIndex = 11;
-            this.fileCounterText.Text = "Saved Passwords: ";
-            this.fileCounterText.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(711, 207);
-            this.Controls.Add(this.fileCounterText);
             this.Controls.Add(this.fileInformationTextBox);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.platformDropDown);
@@ -199,7 +186,6 @@ namespace PasswordManagerProject
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.RichTextBox fileInformationTextBox;
         private System.Windows.Forms.FolderBrowserDialog directoryBrowser;
-        private System.Windows.Forms.Label fileCounterText;
     }
 }
 
