@@ -348,3 +348,7 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
+
+#Own .gitignore
+
+PasswordManagerProject/PasswordManagerProject/obj/Release/PasswordManagerProject.csprojAssemblyReference.cache
