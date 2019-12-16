@@ -1,4 +1,4 @@
-namespace PasswordManagerProject
+namespace PasswordManager
 {
     partial class Form1
     {
@@ -42,6 +42,7 @@ namespace PasswordManagerProject
             this.directoryBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this.copyEmailButton = new System.Windows.Forms.Button();
             this.copyPasswordButton = new System.Windows.Forms.Button();
+            this.deleteButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // platformText
@@ -71,7 +72,7 @@ namespace PasswordManagerProject
             // saveButton
             // 
             this.saveButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.saveButton.Location = new System.Drawing.Point(194, 138);
+            this.saveButton.Location = new System.Drawing.Point(194, 137);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(109, 30);
             this.saveButton.TabIndex = 7;
@@ -169,11 +170,22 @@ namespace PasswordManagerProject
             this.copyPasswordButton.UseVisualStyleBackColor = true;
             this.copyPasswordButton.Click += new System.EventHandler(this.copyPasswordButton_Click);
             // 
+            // deleteButton
+            // 
+            this.deleteButton.Location = new System.Drawing.Point(319, 137);
+            this.deleteButton.Name = "deleteButton";
+            this.deleteButton.Size = new System.Drawing.Size(109, 30);
+            this.deleteButton.TabIndex = 13;
+            this.deleteButton.Text = "Delete";
+            this.deleteButton.UseVisualStyleBackColor = true;
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(711, 207);
+            this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.copyPasswordButton);
             this.Controls.Add(this.copyEmailButton);
             this.Controls.Add(this.fileInformationTextBox);
@@ -192,7 +204,7 @@ namespace PasswordManagerProject
             this.MaximizeBox = false;
             this.Name = "Form1";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Password Manager v1.0.5.5";
+            this.Text = "Password Manager";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -212,6 +224,7 @@ namespace PasswordManagerProject
         private System.Windows.Forms.FolderBrowserDialog directoryBrowser;
         private System.Windows.Forms.Button copyEmailButton;
         private System.Windows.Forms.Button copyPasswordButton;
+        private System.Windows.Forms.Button deleteButton;
     }
 }
 

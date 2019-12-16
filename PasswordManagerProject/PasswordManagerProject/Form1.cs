@@ -3,34 +3,38 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using System.IO;
+using System.Data;
 
 #pragma warning disable
-namespace PasswordManagerProject
+namespace PasswordManager
 {
     public partial class Form1 : Form
     {
-        //Main vars
         string mainDirectory;
         List<PlatformInformation> passwordsList = new List<PlatformInformation>();
-        int passwordFileIDs = 0;
+        TextBox[] textBoxes;
 
         public Form1()
-        {
-            //VS Functions
+        { 
             InitializeComponent();
 
-            //My Functions
             CheckIfUsedBefore();
             LoadFiles();
             Cosmetics();
+            PopulateTextBoxesArray();
         }
 
-        //VS Specific functions
+        void PopulateTextBoxesArray()
+        {
+            textBoxes = new TextBox[] { platformText, nameText, passwordText };
+        }
+
         private void saveButton_Click(object sender, EventArgs e)
         {
             if (CheckForBlankInput())
             {
                 MessageBox.Show("An input field is blank, please review your input.", "Blank Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                ClearTextBoxes();
                 return;
             }
             else
@@ -40,16 +44,83 @@ namespace PasswordManagerProject
             }
         }
 
-        private void platformDropDown_SelectedIndexChanged(object sender, EventArgs e)
+        bool CheckForBlankInput()
         {
-            ComboBox comboBox = (ComboBox)sender;
+            if (string.IsNullOrWhiteSpace(platformText.Text))
+            {
+                return true;
+            }
+            else if (string.IsNullOrWhiteSpace(nameText.Text))
+            {
+                return true;
+            }
+            else if (string.IsNullOrWhiteSpace(passwordText.Text))
+            {
+                return true;
+            }
 
-            //Index of the selected file in the drop down box
-            int indexOfFile = comboBox.FindStringExact(platformDropDown.Text);
-            SearchPIListForTheCorrectFile(indexOfFile);
+            return false;
         }
 
-        //My functions
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            if (MessageBox.Show("Are you sure you want to delete " + platformDropDown.Text + " password file?","Delete file", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            {
+                string filePath = mainDirectory + @"/" + platformDropDown.Text + @".pmf";
+                File.Delete(filePath);
+
+                foreach (PlatformInformation file in passwordsList)
+                {
+                    if (file.Platform == platformDropDown.Text)
+                    {
+                        passwordsList.Remove(file);
+                        break;
+                    }
+                }
+
+                platformDropDown.Items.RemoveAt(platformDropDown.SelectedIndex);
+                platformDropDown.Update();
+                Cosmetics();
+            }
+            else
+            {
+                return;
+            }
+        }
+
+        private void platformDropDown_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string nameOfFile = platformDropDown.Text;
+            SearchPIListForTheCorrectFile(nameOfFile);
+        }
+
+        private void copyEmailButton_Click(object sender, EventArgs e)
+        {
+            string fileName = platformDropDown.Text;
+            foreach (PlatformInformation file in passwordsList)
+            {
+                if (file.Platform == fileName)
+                {
+                    Clipboard.SetText(file.Email);
+                    return;
+                }
+            }
+
+        }
+
+        private void copyPasswordButton_Click(object sender, EventArgs e)
+        {
+            string fileName = platformDropDown.Text;
+            foreach (PlatformInformation file in passwordsList)
+            {
+                if (file.Platform == fileName)
+                {
+                    Clipboard.SetText(file.Password);
+                    return;
+                }
+            }
+        }
+
         void CheckIfUsedBefore()
         {
             string path = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
@@ -76,14 +147,14 @@ namespace PasswordManagerProject
             mainDirectory = directory.FullName;
         }
 
-        void SearchPIListForTheCorrectFile(int indexOfFile)
+        void SearchPIListForTheCorrectFile(string nameOfFile)
         {
             foreach (PlatformInformation file in passwordsList)
             {
-                if (file.FileID == indexOfFile)
+                if (file.Platform == nameOfFile)
                 {
                     WriteFileDataOnRTB(file);
-                    break;
+                    return;
                 }
             }
         }
@@ -95,35 +166,14 @@ namespace PasswordManagerProject
             reader.Close();
         }
 
-        bool CheckForBlankInput()
-        {
-            if (string.IsNullOrWhiteSpace(platformText.Text))
-            {
-                return true;
-            }
-            else if (string.IsNullOrWhiteSpace(nameText.Text))
-            {
-                return true;
-            }
-            else if (string.IsNullOrWhiteSpace(passwordText.Text))
-            {
-                return true;
-            }
-
-            return false;
-        }
-
         void SaveFile()
         {
-            //Helpful vars
             string platform = platformText.Text.Trim();
             string name = nameText.Text.Trim();
             string password = passwordText.Text.Trim();
-            int fileID = passwordFileIDs;
             DateTime dateCreated = DateTime.Now;
-            IncrementIDs();
 
-            WritePMFInDirectory(platform,CreatePIObjectAndAddToList(platform, name, password, fileID, dateCreated));
+            WritePMFInDirectory(platform,CreatePIObjectAndAddToList(platform, name, password,dateCreated));
 
             AddItemToDropDown(platform);
             NotifyUser();
@@ -140,8 +190,6 @@ namespace PasswordManagerProject
                 writer.WriteLine();
                 writer.Write("Password: " + passwordFile.Password);
                 writer.WriteLine();
-                writer.Write("File ID: " + passwordFile.FileID);
-                writer.WriteLine();
                 writer.Write("Creation Date: " + passwordFile.DateCreated);
                 writer.Close();
             }
@@ -153,9 +201,9 @@ namespace PasswordManagerProject
             }
         }
 
-        PlatformInformation CreatePIObjectAndAddToList(string platform, string name, string password, int fileID, DateTime dateCreated)
+        PlatformInformation CreatePIObjectAndAddToList(string platform, string name, string password, DateTime dateCreated)
         {
-            PlatformInformation passwordFile = new PlatformInformation(platform, name, password, fileID, dateCreated);
+            PlatformInformation passwordFile = new PlatformInformation(platform, name, password, dateCreated);
             passwordsList.Add(passwordFile);
             return passwordFile;
         }
@@ -185,9 +233,10 @@ namespace PasswordManagerProject
         
         void ClearTextBoxes()
         {
-            platformText.Clear();
-            nameText.Clear();
-            passwordText.Clear();
+            foreach (TextBox textBox in textBoxes)
+            {
+                textBox.Clear();
+            }
         }
 
         void LoadFiles()
@@ -198,39 +247,25 @@ namespace PasswordManagerProject
             for (int i = 0; i < filesInDirectoryByTime.Length; i++)
             {
                 filesNamesInDirectory[i] = filesInDirectoryByTime[i].ToString();
-                CreateLoadedFileObject(filesNamesInDirectory[i]); //Create an object for each file
+                CreateLoadedFileObject(filesNamesInDirectory[i]);
             }
         }
 
         void CreateLoadedFileObject(string name)
         {
             StreamReader streamReader = new StreamReader(mainDirectory + @"\" + name);
-            string fileEmail = streamReader.ReadLine().Replace("Email / Username: ", ""); //Email
-            string filePassword = streamReader.ReadLine().Replace("Password: ", ""); //Password
-            string fileIdAsString = streamReader.ReadLine().Replace("File ID:", ""); //Take the int ID as a String
-            int fileID = ParseFileID(fileIdAsString); //Convert the stringID to int
+            string fileEmail = streamReader.ReadLine().Replace("Email / Username: ", "");
+            string filePassword = streamReader.ReadLine().Replace("Password: ", "");
             streamReader.Close();
 
             DateTime timeCreated = Directory.GetCreationTime(mainDirectory + @"\" + name + @".pmf");
 
             string fileNameWithoutExtension = name.Replace(".pmf", "");
 
-            PlatformInformation fileToAdd = new PlatformInformation(fileNameWithoutExtension, fileEmail, filePassword, fileID, timeCreated); //Create the file object
-            passwordsList.Add(fileToAdd); //Add it to the list of password files
+            PlatformInformation fileToAdd = new PlatformInformation(fileNameWithoutExtension, fileEmail, filePassword, timeCreated);
+            passwordsList.Add(fileToAdd);
             AddItemToDropDown(fileNameWithoutExtension);
-            IncrementIDs();
             return;
-        }
-
-        int ParseFileID(string stringToParse)
-        {
-            Int32.TryParse(stringToParse, out int id);
-            return id;
-        }
-
-        void IncrementIDs()
-        {
-            passwordFileIDs++;
         }
 
         void Cosmetics()
@@ -238,37 +273,18 @@ namespace PasswordManagerProject
             try
             {
                 platformDropDown.SelectedIndex = 0;
+                deleteButton.Enabled = true;
+                copyEmailButton.Enabled = true;
+                copyPasswordButton.Enabled = true;
             }
             catch (ArgumentOutOfRangeException)
             {
+                platformDropDown.Text = "";
+                fileInformationTextBox.Clear();
                 platformDropDown.Enabled = false;
-            }
-        }
-
-        private void copyEmailButton_Click(object sender, EventArgs e)
-        {
-            string fileName = platformDropDown.Text;
-            foreach (PlatformInformation file in passwordsList)
-            {
-                if (file.Platform == fileName)
-                {
-                    Clipboard.SetText(file.Email);
-                    return;
-                }
-            }
-            
-        }
-
-        private void copyPasswordButton_Click(object sender, EventArgs e)
-        {
-            string fileName = platformDropDown.Text;
-            foreach (PlatformInformation file in passwordsList)
-            {
-                if (file.Platform == fileName)
-                {
-                    Clipboard.SetText(file.Password);
-                    return;
-                }
+                deleteButton.Enabled = false;
+                copyEmailButton.Enabled = false;
+                copyPasswordButton.Enabled = false;
             }
         }
     }
