@@ -350,4 +350,6 @@ MigrationBackup/
 .ionide/
 
 #Own .gitignore
-.suo
+*.suo
+
+*.cache
