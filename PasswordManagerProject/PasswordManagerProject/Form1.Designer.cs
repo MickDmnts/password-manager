@@ -1,4 +1,4 @@
-namespace PasswordManager
+namespace PasswordManagerProject
 {
     partial class Form1
     {

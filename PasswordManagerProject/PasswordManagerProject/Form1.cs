@@ -6,7 +6,7 @@ using System.IO;
 using System.Data;
 
 #pragma warning disable
-namespace PasswordManager
+namespace PasswordManagerProject
 {
     public partial class Form1 : Form
     {
