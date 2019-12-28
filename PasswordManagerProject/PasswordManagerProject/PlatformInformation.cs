@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PasswordManager
+namespace PasswordManagerProject
 {
     class PlatformInformation
     {
