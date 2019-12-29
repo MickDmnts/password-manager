@@ -359,3 +359,6 @@ PasswordManagerProject/.vs/PasswordManagerProject/v16/.suo
 PasswordManagerProject/.vs/PasswordManagerProject/v16/.suo
 PasswordManagerProject/.vs/PasswordManagerProject/v16/.suo
 *.ide
+PasswordManagerProject/.vs/PasswordManagerProject/v16/.suo
+*.ide
+*.cache

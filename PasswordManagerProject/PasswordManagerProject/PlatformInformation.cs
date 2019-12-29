@@ -2,7 +2,7 @@
 
 namespace PasswordManagerProject
 {
-    class PlatformInformation
+    public class PlatformInformation
     {
         public PlatformInformation(string platform, string email, string password, DateTime timeCreated)
         {
