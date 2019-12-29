@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
@@ -66,14 +65,10 @@ namespace PasswordManagerProject
             string[] directories = Directory.GetDirectories(rootFolder);
             if (directories.Contains(rootFolder + @"\Password Manager"))
             {
-                //SetMainDirectoryToPreviousPath(path);
-                MainWindowForm.MainDirectory = rootFolder + @"\Password Manager";
                 return true;
             }
             else
             {
-                //DirectoryCreationIfFirstRun(path);
-                MainWindowForm.MainDirectory = rootFolder;
                 return false;
             }
         }

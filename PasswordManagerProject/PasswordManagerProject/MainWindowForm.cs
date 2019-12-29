@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 using System.IO;
+
+//The app currently saves in desktop for testing purposes
 
 #pragma warning disable
 namespace PasswordManagerProject
@@ -31,10 +32,27 @@ namespace PasswordManagerProject
             }
         }
 
-        List<PlatformInformation> _passwordsList = new List<PlatformInformation>();
-        TextBox[] _textBoxes;
+        static List<PlatformInformation> _passwordsList = new List<PlatformInformation>();
+        public static List<PlatformInformation> PasswordsList
+        {
+            get
+            {
+                return _passwordsList;
+            }
+        }
+
+        static TextBox[] _textBoxes;
+        public static TextBox[] TextBoxArray
+        {
+            get
+            {
+                return _textBoxes;
+            }
+        }
+
         Button[] _formButtons;
         FileLoader _fileLoader;
+        FileSaver _fileSaver;
 
         public MainWindowForm()
         { 
@@ -42,24 +60,27 @@ namespace PasswordManagerProject
 
             if (Utilities.CheckIfUsedBefore(RootFolder))
             {
+                MainDirectory = RootFolder + @"\Password Manager";
                 Utilities.SetMainDirectoryToPreviousPath(MainDirectory);
             }
             else
             {
+                MainDirectory = RootFolder;
                 Utilities.DirectoryCreationIfFirstRun(MainDirectory);
             }
 
-            CreateFileLoader(); 
+            CreateLoaderSaverInstances(); 
             PopulateTextBoxesArray();
             PopulateButtonArray();
             _fileLoader.LoadFiles();
+
             if (_platformDropDown.Items.Count > 0)
             {
-                NotFirstRunUtilities();
+                NotFirstRunCosmetics();
             }
         }
 
-        void NotFirstRunUtilities()
+        void NotFirstRunCosmetics()
         {
             Utilities.SelectIndexZero(_platformDropDown);
             Utilities.ChangeButtonState(_formButtons, true);
@@ -67,9 +88,10 @@ namespace PasswordManagerProject
             Utilities.RichTextBoxState(_richTextBox, true);
         }
 
-        void CreateFileLoader()
+        void CreateLoaderSaverInstances()
         {
             _fileLoader = new FileLoader(_passwordsList, _platformDropDown);
+            _fileSaver = new FileSaver(_platformText, _nameText, _passwordText, _platformDropDown);
         }
 
         void PopulateTextBoxesArray()
@@ -84,25 +106,36 @@ namespace PasswordManagerProject
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            if (Utilities.CheckForBlankInput(_textBoxes))
+            LaunchSavingSequence();
+        }
+
+        void LaunchSavingSequence()
+        {
+            if (Utilities.CheckForBlankInput(TextBoxArray))
             {
                 MessageBox.Show("An input field is blank, please review your input.", "Blank Input", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                Utilities.ClearTextBoxes(_textBoxes);
+                Utilities.ClearTextBoxes(TextBoxArray);
                 return;
             }
             else
             {
-                SaveFile();
-                //Cosmetics();
+                _fileSaver.SaveFile();
+
+                //Cosmetics
                 Utilities.SelectIndexZero(_platformDropDown);
-                Utilities.ChangeButtonState(_formButtons,true);
+                Utilities.ChangeButtonState(_formButtons, true);
                 Utilities.RichTextBoxState(_richTextBox, true);
             }
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are you sure you want to delete " + _platformDropDown.Text + " password file?","Delete file", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            LaunchDeletionSequence();
+        }
+
+        void LaunchDeletionSequence()
+        {
+            if (MessageBox.Show("Are you sure you want to delete " + _platformDropDown.Text + " password file?", "Delete file", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
                 string filePath = MainDirectory + @"/" + _platformDropDown.Text + @".pmf";
                 File.Delete(filePath);
@@ -140,8 +173,32 @@ namespace PasswordManagerProject
 
         private void platformDropDown_SelectedIndexChanged(object sender, EventArgs e)
         {
+            LaunchSearchSequence();
+        }
+
+        void LaunchSearchSequence()
+        {
             string nameOfFile = _platformDropDown.Text;
             SearchPIListForTheCorrectFile(nameOfFile);
+        }
+
+        void SearchPIListForTheCorrectFile(string nameOfFile)
+        {
+            foreach (PlatformInformation file in _passwordsList)
+            {
+                if (file.Platform == nameOfFile)
+                {
+                    WriteFileDataOnRTB(file);
+                    return;
+                }
+            }
+        }
+
+        void WriteFileDataOnRTB(PlatformInformation correctFile)
+        {
+            StreamReader reader = new StreamReader(MainDirectory + @"\" + correctFile.Platform + @".pmf");
+            _richTextBox.Text = reader.ReadToEnd();
+            reader.Close();
         }
 
         private void copyEmailButton_Click(object sender, EventArgs e)
@@ -171,65 +228,5 @@ namespace PasswordManagerProject
             }
         }
 
-        void SearchPIListForTheCorrectFile(string nameOfFile)
-        {
-            foreach (PlatformInformation file in _passwordsList)
-            {
-                if (file.Platform == nameOfFile)
-                {
-                    WriteFileDataOnRTB(file);
-                    return;
-                }
-            }
-        }
-
-        void WriteFileDataOnRTB(PlatformInformation correctFile)
-        {
-            StreamReader reader = new StreamReader(MainDirectory + @"\" + correctFile.Platform + @".pmf");
-            _richTextBox.Text = reader.ReadToEnd();
-            reader.Close();
-        }
-
-        void SaveFile()
-        {
-            string platform = _platformText.Text.Trim();
-            string name = _nameText.Text.Trim();
-            string password = _passwordText.Text.Trim();
-            DateTime dateCreated = DateTime.Now;
-
-            WritePMFInDirectory(platform, CreatePIObjectAndAddToList(platform, name, password, dateCreated));
-
-            Utilities.AddItemToDropDown(_platformDropDown, platform);
-            Utilities.NotifyUser();
-            Utilities.ClearTextBoxes(_textBoxes);
-            Utilities.DropDownState(_platformDropDown, true);
-        }
-
-        void WritePMFInDirectory(string platformName,PlatformInformation passwordFile)
-        {
-            try
-            {
-                StreamWriter writer = new StreamWriter(MainDirectory + @"\" + platformName + @".pmf");
-                writer.Write("Email / Username: " + passwordFile.Email);
-                writer.WriteLine();
-                writer.Write("Password: " + passwordFile.Password);
-                writer.WriteLine();
-                writer.Write("Creation Date: " + passwordFile.DateCreated);
-                writer.Close();
-            }
-            catch (DirectoryNotFoundException)
-            {
-                MessageBox.Show("Save folder not found! \n" +
-                    "Shutting down the program.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                Application.Exit();
-            }
-        }
-
-        PlatformInformation CreatePIObjectAndAddToList(string platform, string name, string password, DateTime dateCreated)
-        {
-            PlatformInformation passwordFile = new PlatformInformation(platform, name, password, dateCreated);
-            _passwordsList.Add(passwordFile);
-            return passwordFile;
-        }
     }
 }
