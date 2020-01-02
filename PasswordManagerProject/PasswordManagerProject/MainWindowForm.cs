@@ -72,6 +72,8 @@ namespace PasswordManagerProject
             CreateLoaderSaverInstances(); 
             PopulateTextBoxesArray();
             PopulateButtonArray();
+
+            //Load dem files
             _fileLoader.LoadFiles();
 
             if (_platformDropDown.Items.Count > 0)
