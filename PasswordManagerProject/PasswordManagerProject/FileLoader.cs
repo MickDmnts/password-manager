@@ -8,44 +8,26 @@ namespace PasswordManagerProject
 {
     class FileLoader
     { 
-        public FileLoader(List<PlatformInformation> list, ComboBox comboBox)
+        public FileLoader(List<PlatformInformation> passwordsList, ListBox listBox)
         {
-            _mainDirectory =  Environment.GetFolderPath(Environment.SpecialFolder.Desktop) + @"\Password Manager";
-            _passwordsList = list;
-            _comboBox = comboBox;
+            _passwordsList = passwordsList;
+            _listBox = listBox;
         }
 
-        string _mainDirectory;
         List<PlatformInformation> _passwordsList;
-        ComboBox _comboBox;
+        ListBox _listBox;
 
         public void LoadFiles()
         {
-            //Get the file names on a CreationTime order
-            var filesInDirectoryByTime = new DirectoryInfo(_mainDirectory).GetFiles().OrderBy(f => f.CreationTime).ToArray();
-            string[] filesNamesInDirectory = new string[filesInDirectoryByTime.Length];
-            for (int i = 0; i < filesInDirectoryByTime.Length; i++)
-            {
-                filesNamesInDirectory[i] = filesInDirectoryByTime[i].ToString();
-                CreateLoadedFileObject(filesNamesInDirectory[i]);
-            }
+            _passwordsList = DatabaseDataAccess.LoadDatabase();
+            _listBox.DataSource = null;
+            _listBox.DataSource = _passwordsList;
+            _listBox.DisplayMember = "Platform";
         }
 
-        void CreateLoadedFileObject(string name)
+        public void RefreshList()
         {
-            StreamReader streamReader = new StreamReader(_mainDirectory + @"\" + name);
-            string fileEmail = streamReader.ReadLine().Replace("Email / Username: ", "");
-            string filePassword = streamReader.ReadLine().Replace("Password: ", "");
-            streamReader.Close();
-
-            DateTime timeCreated = Directory.GetCreationTime(_mainDirectory + @"\" + name + @".pmf");
-
-            string fileNameWithoutExtension = name.Replace(".pmf", "");
-
-            PlatformInformation fileToAdd = new PlatformInformation(fileNameWithoutExtension, fileEmail, filePassword, timeCreated);
-            _passwordsList.Add(fileToAdd);
-            Utilities.AddItemToDropDown(_comboBox, fileNameWithoutExtension);
-            return;
+            LoadFiles();
         }
     }
 }

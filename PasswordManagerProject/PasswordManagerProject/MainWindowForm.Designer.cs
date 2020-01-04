@@ -36,13 +36,12 @@ namespace PasswordManagerProject
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this._platformDropDown = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
-            this._richTextBox = new System.Windows.Forms.RichTextBox();
             this.directoryBrowser = new System.Windows.Forms.FolderBrowserDialog();
             this._copyEmailButton = new System.Windows.Forms.Button();
             this._copyPasswordButton = new System.Windows.Forms.Button();
             this._deleteButton = new System.Windows.Forms.Button();
+            this._listBox = new System.Windows.Forms.ListBox();
             this.SuspendLayout();
             // 
             // _platformText
@@ -110,26 +109,6 @@ namespace PasswordManagerProject
             this.label3.TabIndex = 2;
             this.label3.Text = "Password";
             // 
-            // _platformDropDown
-            // 
-            this._platformDropDown.AutoCompleteMode = System.Windows.Forms.AutoCompleteMode.SuggestAppend;
-            this._platformDropDown.AutoCompleteSource = System.Windows.Forms.AutoCompleteSource.ListItems;
-            this._platformDropDown.DropDownHeight = 110;
-            this._platformDropDown.DropDownWidth = 190;
-            this._platformDropDown.Enabled = false;
-            this._platformDropDown.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this._platformDropDown.FormattingEnabled = true;
-            this._platformDropDown.IntegralHeight = false;
-            this._platformDropDown.Location = new System.Drawing.Point(471, 19);
-            this._platformDropDown.MaxDropDownItems = 99;
-            this._platformDropDown.MaxLength = 9999;
-            this._platformDropDown.Name = "_platformDropDown";
-            this._platformDropDown.Size = new System.Drawing.Size(189, 23);
-            this._platformDropDown.TabIndex = 8;
-            this._platformDropDown.TabStop = false;
-            this._platformDropDown.Tag = "";
-            this._platformDropDown.SelectedIndexChanged += new System.EventHandler(this.platformDropDown_SelectedIndexChanged);
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -140,18 +119,6 @@ namespace PasswordManagerProject
             this.label4.TabIndex = 9;
             this.label4.Text = "Select password";
             // 
-            // _richTextBox
-            // 
-            this._richTextBox.BackColor = System.Drawing.SystemColors.Window;
-            this._richTextBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this._richTextBox.Enabled = false;
-            this._richTextBox.Location = new System.Drawing.Point(434, 48);
-            this._richTextBox.Name = "_richTextBox";
-            this._richTextBox.ReadOnly = true;
-            this._richTextBox.Size = new System.Drawing.Size(265, 119);
-            this._richTextBox.TabIndex = 10;
-            this._richTextBox.Text = "";
-            // 
             // _copyEmailButton
             // 
             this._copyEmailButton.Enabled = false;
@@ -161,7 +128,6 @@ namespace PasswordManagerProject
             this._copyEmailButton.TabIndex = 11;
             this._copyEmailButton.Text = "Copy Email";
             this._copyEmailButton.UseVisualStyleBackColor = true;
-            this._copyEmailButton.Click += new System.EventHandler(this.copyEmailButton_Click);
             // 
             // _copyPasswordButton
             // 
@@ -172,7 +138,6 @@ namespace PasswordManagerProject
             this._copyPasswordButton.TabIndex = 12;
             this._copyPasswordButton.Text = "Copy Password";
             this._copyPasswordButton.UseVisualStyleBackColor = true;
-            this._copyPasswordButton.Click += new System.EventHandler(this.copyPasswordButton_Click);
             // 
             // _deleteButton
             // 
@@ -185,17 +150,30 @@ namespace PasswordManagerProject
             this._deleteButton.UseVisualStyleBackColor = true;
             this._deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
             // 
+            // _listBox
+            // 
+            this._listBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this._listBox.Cursor = System.Windows.Forms.Cursors.Hand;
+            this._listBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this._listBox.FormattingEnabled = true;
+            this._listBox.ItemHeight = 20;
+            this._listBox.Location = new System.Drawing.Point(434, 20);
+            this._listBox.Name = "_listBox";
+            this._listBox.ScrollAlwaysVisible = true;
+            this._listBox.Size = new System.Drawing.Size(265, 142);
+            this._listBox.Sorted = true;
+            this._listBox.TabIndex = 15;
+            // 
             // MainWindowForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(711, 207);
+            this.Controls.Add(this._listBox);
             this.Controls.Add(this._deleteButton);
             this.Controls.Add(this._copyPasswordButton);
             this.Controls.Add(this._copyEmailButton);
-            this.Controls.Add(this._richTextBox);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this._platformDropDown);
             this.Controls.Add(this._saveButton);
             this.Controls.Add(this._passwordText);
             this.Controls.Add(this._nameText);
@@ -223,13 +201,12 @@ namespace PasswordManagerProject
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox _platformDropDown;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.RichTextBox _richTextBox;
         private System.Windows.Forms.FolderBrowserDialog directoryBrowser;
         private System.Windows.Forms.Button _copyEmailButton;
         private System.Windows.Forms.Button _copyPasswordButton;
         private System.Windows.Forms.Button _deleteButton;
+        private System.Windows.Forms.ListBox _listBox;
     }
 }
 

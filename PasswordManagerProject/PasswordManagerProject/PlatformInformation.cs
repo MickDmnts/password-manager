@@ -1,16 +1,9 @@
-﻿using System;
-
+﻿
 namespace PasswordManagerProject
 {
     public class PlatformInformation
     {
-        public PlatformInformation(string platform, string email, string password, DateTime timeCreated)
-        {
-            Platform = platform;
-            Email = email;
-            Password = password;
-            DateCreated = timeCreated;
-        }
+        public int Id { get; set; }
 
         public string Platform { get; set; }
 
@@ -18,6 +11,12 @@ namespace PasswordManagerProject
 
         public string Password { get; set; }
 
-        public DateTime DateCreated { get; set; }
+        public string GetAllData
+        {
+            get
+            {
+                return $"{Id} {Platform} {Email} {Password}";
+            }
+        }
     }
 }
