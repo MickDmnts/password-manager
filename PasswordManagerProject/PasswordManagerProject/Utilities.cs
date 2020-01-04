@@ -10,11 +10,6 @@ namespace PasswordManagerProject
         {
             comboBox.Items.Add(itemName);
         }
-
-        public static void SelectIndexZero(ComboBox comboBox)
-        {
-            comboBox.SelectedIndex = 0;
-        }
         
         public static void ChangeButtonState(Button[] _buttons, bool state)
         {
@@ -22,16 +17,6 @@ namespace PasswordManagerProject
             {
                 button.Enabled = state;
             }
-        }
-
-        public static void DropDownState(ComboBox _comboBox, bool state)
-        {
-            _comboBox.Enabled = state;
-        }
-
-        public static void RichTextBoxState(RichTextBox _rtb, bool state)
-        {
-            _rtb.Enabled = state;
         }
 
         public static bool CheckForBlankInput(TextBox[] textBoxes)
@@ -58,31 +43,6 @@ namespace PasswordManagerProject
         public static void NotifyUser()
         {
             MessageBox.Show("File saved successfully.", "Info", MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
-        public static bool CheckIfUsedBefore(string rootFolder)
-        {
-            string[] directories = Directory.GetDirectories(rootFolder);
-            if (directories.Contains(rootFolder + @"\Password Manager"))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public static void SetMainDirectoryToPreviousPath(string pathName)
-        {
-            MainWindowForm.MainDirectory = pathName;
-        }
-
-        public static void DirectoryCreationIfFirstRun(string pathName)
-        {
-            DirectoryInfo directory = Directory.CreateDirectory(pathName + @"\Password Manager");
-            directory.Attributes = FileAttributes.Hidden;
-            MainWindowForm.MainDirectory = directory.FullName;
         }
     }
 }
