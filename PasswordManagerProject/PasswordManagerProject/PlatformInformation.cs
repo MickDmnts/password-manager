@@ -1,5 +1,4 @@
-﻿
-namespace PasswordManagerProject
+﻿namespace PasswordManagerProject
 {
     public class PlatformInformation
     {
