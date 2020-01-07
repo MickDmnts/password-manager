@@ -128,6 +128,7 @@ namespace PasswordManagerProject
             this._copyEmailButton.TabIndex = 11;
             this._copyEmailButton.Text = "Copy Email";
             this._copyEmailButton.UseVisualStyleBackColor = true;
+            this._copyEmailButton.Click += new System.EventHandler(this._copyEmailButton_Click);
             // 
             // _copyPasswordButton
             // 
@@ -138,6 +139,7 @@ namespace PasswordManagerProject
             this._copyPasswordButton.TabIndex = 12;
             this._copyPasswordButton.Text = "Copy Password";
             this._copyPasswordButton.UseVisualStyleBackColor = true;
+            this._copyPasswordButton.Click += new System.EventHandler(this._copyPasswordButton_Click);
             // 
             // _deleteButton
             // 
@@ -161,7 +163,6 @@ namespace PasswordManagerProject
             this._listBox.Name = "_listBox";
             this._listBox.ScrollAlwaysVisible = true;
             this._listBox.Size = new System.Drawing.Size(265, 142);
-            this._listBox.Sorted = true;
             this._listBox.TabIndex = 15;
             // 
             // MainWindowForm

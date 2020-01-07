@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.IO;
+using System.Diagnostics;
 
-//TO-DO  -- Make Delete, Copy buttons do something
+//TO DO -- Modify the try_atch section so it identifies is the programs is used for the first time
+//TO DO -- Refresh the list when an item is deleted so it shows the remaining items in the database
 
 #pragma warning disable
 namespace PasswordManagerProject
@@ -69,6 +70,7 @@ namespace PasswordManagerProject
             }
             catch (Exception)
             {
+                Utilities.ChangeButtonState(_formButtons, true);
                 return;
             }
         }
@@ -97,7 +99,20 @@ namespace PasswordManagerProject
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            //LaunchDeletionSequence();
+            int platformID = _listBox.SelectedIndex + 1;
+            DatabaseDataAccess.DeletePasswordAndResetSEQrow(platformID);
+        }
+
+        private void _copyEmailButton_Click(object sender, EventArgs e)
+        {
+            int platformID = _listBox.SelectedIndex + 1;
+            Debug.WriteLine(DatabaseDataAccess.GetEmailByID(platformID));
+        }
+
+        private void _copyPasswordButton_Click(object sender, EventArgs e)
+        {
+            int platformID = _listBox.SelectedIndex + 1;
+            Debug.WriteLine(DatabaseDataAccess.GetPasswordByID(platformID));
         }
     }
 }

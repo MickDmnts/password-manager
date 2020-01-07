@@ -1,16 +1,9 @@
-﻿using System.IO;
-using System.Linq;
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 namespace PasswordManagerProject
 {
     public class Utilities
     {
-        public static void AddItemToDropDown(ComboBox comboBox,string itemName)
-        {
-            comboBox.Items.Add(itemName);
-        }
-        
         public static void ChangeButtonState(Button[] _buttons, bool state)
         {
             foreach (Button button in _buttons)

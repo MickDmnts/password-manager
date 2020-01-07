@@ -4,7 +4,7 @@ using System.Windows.Forms;
 namespace PasswordManagerProject
 {
     class FileLoader
-    { 
+    {
         public FileLoader(List<PlatformInformation> passwordsList, ListBox listBox)
         {
             _passwordsList = passwordsList;
