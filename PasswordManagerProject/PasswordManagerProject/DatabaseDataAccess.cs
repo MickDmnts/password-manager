@@ -5,11 +5,14 @@ using Dapper;
 using System.Configuration;
 using System.Data;
 using System.Diagnostics;
+using System.Windows.Forms;
 
 namespace PasswordManagerProject
 {
     public class DatabaseDataAccess
     {
+        public static ListBox FormListBox { get; set; }
+
         public static void CreateDatabase()
         {
             using (IDbConnection cnn = new SQLiteConnection(LoadConnectionString()))
@@ -70,6 +73,7 @@ namespace PasswordManagerProject
                 cnn.Execute("delete from Passwords where Id =" + id);
                 ResetSQL_SEQUENCE_SEQ_row();
                 //TO DO -- Refresh the list so it shows the remaining passwords
+
             }
         }
 
