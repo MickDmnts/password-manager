@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
 
-//TO DO -- Modify the try_catch section so it identifies if the programs is used for the first time -- CHECK
-//TO DO -- Refresh the list when an item is deleted so it shows the remaining items in the database
+//RE-WORK -- Modify the try_catch section so it identifies if the programs is used for the first time
+//TO DO -- Refresh the list when an item is deleted so it shows the remaining items in the database -- IndexOutOfRangeException
 
 #pragma warning disable
 namespace PasswordManagerProject
@@ -99,18 +99,21 @@ namespace PasswordManagerProject
         private void deleteButton_Click(object sender, EventArgs e)
         {
             int platformID = _listBox.SelectedIndex + 1;
+            Debug.WriteLine(platformID);
             DatabaseDataAccess.DeletePasswordAndResetSEQrow(platformID);
         }
 
         private void _copyEmailButton_Click(object sender, EventArgs e)
         {
             int platformID = _listBox.SelectedIndex + 1;
+            Debug.WriteLine(platformID);
             Clipboard.SetText(DatabaseDataAccess.GetEmailByID(platformID));
         }
 
         private void _copyPasswordButton_Click(object sender, EventArgs e)
         {
             int platformID = _listBox.SelectedIndex + 1;
+            Debug.WriteLine(platformID);
             Clipboard.SetText(DatabaseDataAccess.GetPasswordByID(platformID));
         }
     }

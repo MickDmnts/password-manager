@@ -72,8 +72,6 @@ namespace PasswordManagerProject
                 string id = platformID.ToString();
                 cnn.Execute("delete from Passwords where Id =" + id);
                 ResetSQL_SEQUENCE_SEQ_row();
-                //TO DO -- Refresh the list so it shows the remaining passwords
-
             }
         }
 
